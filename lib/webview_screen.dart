@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'dart:convert';
@@ -16,6 +15,7 @@ class WebviewScreen extends StatefulWidget {
   final Map<String, dynamic>? config;
   final Function(dynamic) success;
   final Function(dynamic) error;
+  final AppBar? appBar;
   const WebviewScreen({
     Key? key,
     required this.appId,
@@ -25,6 +25,7 @@ class WebviewScreen extends StatefulWidget {
     this.metaData,
     required this.config,
     this.amount,
+    this.appBar,
     required this.success,
     required this.error,
   }) : super(key: key);
@@ -263,9 +264,10 @@ class _WebviewScreenState extends State<WebviewScreen> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Dojah Widget"),
-      ),
+      appBar: widget.appBar ??
+          AppBar(
+            title: const Text("Dojah Widget"),
+          ),
       body: isGranted
           ? InAppWebView(
               initialData: InAppWebViewInitialData(
