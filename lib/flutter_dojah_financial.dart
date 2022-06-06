@@ -8,6 +8,7 @@ class DojahFinancial {
   final String publicKey;
   final String type;
   final int? amount;
+  final String? referenceId;
   final Map<String, dynamic>? userData;
   final Map<String, dynamic>? metaData;
   final Map<String, dynamic>? config;
@@ -22,6 +23,7 @@ class DojahFinancial {
     required this.config,
     this.metaData,
     this.amount,
+    this.referenceId,
     this.onCloseCallback,
     this.appBar,
   });
@@ -41,6 +43,7 @@ class DojahFinancial {
           metaData: metaData,
           config: config,
           amount: amount,
+          referenceId: referenceId,
           success: (result) {
             onSuccess!(result);
           },

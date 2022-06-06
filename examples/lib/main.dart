@@ -58,9 +58,7 @@ final publicKey = ""; //your public key
         ),
         body: Center(
             child: Column(children: <Widget>[
-
-
-                 Container(
+            Container(
             child: TextButton(
               child: const Text(
                 'Custom Widget',
@@ -85,6 +83,7 @@ final publicKey = ""; //your public key
                   "otp": true,
                   "selfie": true,
                   "aml": false,
+                  "webhook": true,
                   "review_process": "Automatic",
                   "pages": [
                     { "page": "government-data", "config": { "bvn": true, "nin": false, "dl": false, "mobile": false, "otp": false, "selfie": false } },
@@ -105,6 +104,8 @@ final publicKey = ""; //your public key
                   
                 };
 
+                const referenceId = "123456789012";
+
                 DojahFinancial? _dojahFinancial;
                 //Use your appId and publicKey
                 _dojahFinancial = DojahFinancial(
@@ -116,6 +117,7 @@ final publicKey = ""; //your public key
                   userData: userData,
                   metaData: metaData,
                   config: configObj,
+                  referenceId: referenceId, //NB: referenceId length must be more that 10 characters
                 );
                 //Type is custom
 
@@ -131,7 +133,7 @@ final publicKey = ""; //your public key
              
             ),
           ),
-          Container(
+           Container(
             child: TextButton(
               child: const Text(
                 'Link Widget',
