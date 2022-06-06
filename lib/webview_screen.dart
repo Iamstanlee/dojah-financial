@@ -10,6 +10,7 @@ class WebviewScreen extends StatefulWidget {
   final String publicKey;
   final String type;
   final int? amount;
+  final String? referenceId;
   final Map<String, dynamic>? userData;
   final Map<String, dynamic>? metaData;
   final Map<String, dynamic>? config;
@@ -26,6 +27,7 @@ class WebviewScreen extends StatefulWidget {
     required this.config,
     this.amount,
     this.appBar,
+    this.referenceId,
     required this.success,
     required this.error,
   }) : super(key: key);
@@ -112,6 +114,7 @@ class Config {
   bool? otp;
   bool? selfie;
 
+
   Config({this.bvn, this.nin, this.dl, this.mobile, this.otp, this.selfie});
 
   Config.fromJson(Map<String, dynamic> json) {
@@ -163,7 +166,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
     super.initState();
 
     initCameraPermissions();
-    initLocationPermissions();
+    
   }
 
   Future initCameraPermissions() async {
@@ -243,16 +246,24 @@ class _WebviewScreenState extends State<WebviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.type == "custom" ||
-        widget.type == "verification" ||
-        widget.type == "liveness" ||
-        widget.type == "identification") {
-      initCameraPermissions();
-    }
+    // if (widget.type == "custom" ||
+    //     widget.type == "verification" ||
+    //     widget.type == "liveness" ||
+    //     widget.type == "identification") {
+    //   initCameraPermissions();
+    // }
 
     dynamic newConfig = widget.config;
 
     var config = Configuration.fromJson(newConfig);
+
+    var needsCamera = config.selfie;
+
+    if (needsCamera == true) {
+
+     initCameraPermissions();      
+     
+    }
 
     var needsLocation =
         config.pages!.where((e) => e.page!.toLowerCase() == "address").toList();
@@ -295,6 +306,7 @@ class _WebviewScreenState extends State<WebviewScreen> {
                                       metadata: ${json.encode(widget.metaData ?? {})},
                                       __location: ${json.encode(locationObject ?? {})},
                                       amount: ${widget.amount},
+                                      reference_id: ${widget.referenceId},
                                       onSuccess: function (response) {
                                       window.flutter_inappwebview.callHandler('onSuccessCallback', response)
                                       },
@@ -354,3 +366,5 @@ class _WebviewScreenState extends State<WebviewScreen> {
     );
   }
 }
+
+
